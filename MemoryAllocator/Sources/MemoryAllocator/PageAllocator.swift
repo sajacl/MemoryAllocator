@@ -24,7 +24,7 @@ extension Memory {
             pointer = _pointer
         }
 
-        func free() throws {
+        consuming func free() throws {
             try freeMemory(pointer, size: size)
         }
     }
