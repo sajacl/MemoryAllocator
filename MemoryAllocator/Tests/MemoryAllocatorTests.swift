@@ -3,5 +3,8 @@ import Testing
 
 @Suite
 struct MemoryAllocatorTests {
-
+    @Test
+    func pageAllocator_general() {
+        
+    }
 }
