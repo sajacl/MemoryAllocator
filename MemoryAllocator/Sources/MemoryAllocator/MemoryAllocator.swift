@@ -27,11 +27,12 @@ extension Memory {
         return pointer
     }
 
-            guard let pointer else {
-                return .failure(RequestMemoryFailure(error: nil))
-            }
+    @inlinable
+    static func freeMemory(_ pointer: UnsafeMutableRawPointer, size: Int) throws {
+        let result = munmap(pointer, size)
 
-            return .success(pointer)
+        if result == -1 {
+            throw FreeRequestMemoryFailure(error: errno)
         }
     }
 }
