@@ -1,22 +1,26 @@
 import Foundation
 
-struct PageAllocator: ~Copyable {
-    let size: Int
+extension Memory {
+    struct Page: ~Copyable {
+        let size: Int
 
-    let pointer: UnsafeMutableRawPointer
+        let pointer: UnsafeMutableRawPointer
 
-    init?(size: Int) {
-        let _pointer = MemoryAllocator.requestMemory(of: size)
+        init?(size: Int) {
+            let _pointer = Memory.Allocator.requestMemory(of: size)
 
-        guard let _pointer = try? _pointer.get() else {
-            return nil
+            guard let _pointer = try? _pointer.get() else {
+                return nil
+            }
+
+            self.size = size
+            pointer = _pointer
         }
 
-        self.size = size
-        pointer = _pointer
-    }
+        func free() {
+            let result = munmap(pointer, size)
 
-    deinit {
-        let result = munmap(pointer, size)
+            print(result)
+        }
     }
 }
