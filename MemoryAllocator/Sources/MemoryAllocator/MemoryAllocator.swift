@@ -1,51 +1,29 @@
 import Foundation
 
-enum MemoryAllocator {
-    /// Method to request memory from OS, using `mmap`.
-    /// Providing generic arguments for mmap syscall.
-    /// - Parameter size: size of memory in bytes.
-    static func requestMemory(of size: Int) -> Result<UnsafeMutableRawPointer, Error> {
-        let pointer = mmap(
-            nil,
-            size,
-            PROT_READ | PROT_WRITE,
-            MAP_PRIVATE | MAP_ANON,
-            -1,
-            0
-        )
+extension Memory {
+    enum Allocator {
+        /// Method to request memory from OS, using `mmap`.
+        /// Providing generic arguments for mmap syscall.
+        /// - Parameter size: size of memory in bytes.
+        static func requestMemory(of size: Int) -> Result<UnsafeMutableRawPointer, Error> {
+            let pointer = mmap(
+                nil,
+                size,
+                PROT_READ | PROT_WRITE,
+                MAP_PRIVATE | MAP_ANON,
+                -1,
+                0
+            )
 
-        if pointer == MAP_FAILED {
-            return .failure(RequestMemoryFailure(error: errno))
-        }
-
-        guard let pointer else {
-            return .failure(RequestMemoryFailure(error: nil))
-        }
-
-        return .success(pointer)
-    }
-
-    struct RequestMemoryFailure: LocalizedError {
-        let error: Int32?
-
-        init(error: Int32?) {
-            self.error = error
-        }
-
-        var localizedDescription: String {
-            return "Failed to allocate memory"
-        }
-
-        var failureReason: String? {
-            guard let error else {
-                return nil
+            if pointer == MAP_FAILED {
+                return .failure(RequestMemoryFailure(error: errno))
             }
 
-            if let cString = strerror(error) {
-                return String(cString: cString)
+            guard let pointer else {
+                return .failure(RequestMemoryFailure(error: nil))
             }
 
-            return "Unknown error code: \(error)"
+            return .success(pointer)
         }
     }
 }
