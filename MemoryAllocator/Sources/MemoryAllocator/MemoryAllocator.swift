@@ -37,7 +37,15 @@ enum MemoryAllocator {
         }
 
         var failureReason: String? {
-            nil
+            guard let error else {
+                return nil
+            }
+
+            if let cString = strerror(error) {
+                return String(cString: cString)
+            }
+
+            return "Unknown error code: \(error)"
         }
     }
 }
