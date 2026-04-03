@@ -12,6 +12,6 @@ struct MemoryAllocatorTests {
         print(page.size)
         print(page.pointer)
 
-        page.free()
+        try page.free()
     }
 }
