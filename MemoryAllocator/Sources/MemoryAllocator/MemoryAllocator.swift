@@ -1,6 +1,9 @@
 import Foundation
 
 enum MemoryAllocator {
+    /// Method to request memory from OS, using `mmap`.
+    /// Providing generic arguments for mmap syscall.
+    /// - Parameter size: size of memory in bytes.
     static func requestMemory(of size: Int) -> Result<UnsafeMutableRawPointer, Error> {
         let pointer = mmap(
             nil,
