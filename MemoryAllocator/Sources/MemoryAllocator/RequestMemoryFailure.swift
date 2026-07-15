@@ -1,6 +1,6 @@
 import Foundation
 
-extension Memory {
+extension Allocator {
     struct RequestMemoryFailure: LocalizedError {
         let error: Int32?
 
@@ -14,7 +14,7 @@ extension Memory {
 
         var failureReason: String? {
             guard let error else {
-                return nil
+                return "Pointer returned nil"
             }
 
             if let cString = strerror(error) {

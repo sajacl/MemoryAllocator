@@ -33,7 +33,7 @@ struct MemoryAllocatorTests {
 
         for pointer in pointers {
             if munmap(pointer, size) == -1 {
-                throw Memory.FreeRequestMemoryFailure(error: errno)
+                throw Allocator.FreeRequestMemoryFailure(error: errno)
             }
         }
     }

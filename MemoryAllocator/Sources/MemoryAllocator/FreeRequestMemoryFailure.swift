@@ -1,6 +1,6 @@
 import Foundation
 
-extension Memory {
+extension Allocator {
     struct FreeRequestMemoryFailure: LocalizedError {
         let error: Int32
 

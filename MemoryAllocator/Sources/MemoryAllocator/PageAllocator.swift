@@ -7,7 +7,7 @@ extension Memory {
         let pointer: UnsafeMutableRawPointer
 
         init?(size: Int) {
-            let _pointer = try? requestMemory(of: size)
+            let _pointer = try? Allocator.requestMemory(of: size)
 
             guard let _pointer else {
                 return nil
@@ -18,14 +18,14 @@ extension Memory {
         }
 
         init(_ size: Int) throws {
-            let _pointer = try requestMemory(of: size)
+            let _pointer = try Allocator.requestMemory(of: size)
 
             self.size = size
             pointer = _pointer
         }
 
         consuming func free() throws {
-            try freeMemory(pointer, size: size)
+            try Allocator.freeMemory(pointer, size: size)
         }
     }
 }
