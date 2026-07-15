@@ -1,7 +1,7 @@
 import Foundation
 
 /// A wrapper that indicate calls passes through a syscall.
-extension Memory {
+enum Allocator {
     /// Method to request memory from OS, using `mmap`.
     /// Providing generic arguments for mmap syscall.
     /// - Parameter size: size of memory in bytes.
